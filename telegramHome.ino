@@ -105,10 +105,6 @@ void handleNewMessages(int numNewMessages) {
       String startPg = "Hello, I'm bot which can show some information about home. I can show temperature at house and set color for rgb diod. Use /help if you need more information.";
       bot.sendMessage(chat_id, startPg);
     }
-
-    if(text.equals("")){
-      bot.sendMessage();
-    }
   }
 }
 
