@@ -78,7 +78,7 @@ void handleNewMessages(int numNewMessages) {
 
     if (text.equals("/help")) {
       String helpPg = "/temp -> Show temperature at zoggn's house \n";
-      helpPg += "/setLed_on x n y -> Set color for rgb diod. X, N, Y red green blue channels(0-255 for each channel";
+      helpPg += "/setLed r g b -> Set color for rgb diod. R, G, B red green blue channels(0-255 for each channel";
       bot.sendMessage(chat_id, helpPg);
     }
 
@@ -89,7 +89,7 @@ void handleNewMessages(int numNewMessages) {
       bot.sendMessage(chat_id, "Temperature at zoggn's home is near = " + tempStr);
     }
 
-    if (text.compareTo("/setLed")) {
+    if (text.startsWith("/setLed")) {
       char tmp[20];
       text.toCharArray(tmp, 20);
       sscanf(tmp,"/setLed %d %d %d",&ledVal[0], &ledVal[1], &ledVal[2]);
@@ -97,13 +97,17 @@ void handleNewMessages(int numNewMessages) {
       if(ledVal[0] == 0 && ledVal[1] == 0 && ledVal[2] == 0){
         bot.sendMessage(chat_id, "Led was disabled");
     } else {
-      bot.sendMessage(chat_id, "Your value was setted");
+      bot.sendMessage(chat_id, "Your value was set");
     }
    }
 
     if (text.equals("/start")) {
       String startPg = "Hello, I'm bot which can show some information about home. I can show temperature at house and set color for rgb diod. Use /help if you need more information.";
       bot.sendMessage(chat_id, startPg);
+    }
+
+    if(text.equals("")){
+      bot.sendMessage();
     }
   }
 }
