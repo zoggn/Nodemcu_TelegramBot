@@ -77,7 +77,8 @@ void handleNewMessages(int numNewMessages) {
     if (from_name == "") from_name = "Guest";
 
     if (text.equals("/help")) {
-      String helpPg = "/temp -> Show temperature at zoggn's house";
+      String helpPg = "/temp -> Show temperature at zoggn's house \n";
+      helpPg += "/setLed_on x n y -> Set color for rgb diod. X, N, Y red green blue channels(0-255 for each channel";
       bot.sendMessage(chat_id, helpPg);
     }
 
@@ -88,17 +89,20 @@ void handleNewMessages(int numNewMessages) {
       bot.sendMessage(chat_id, "Temperature at zoggn's home is near = " + tempStr);
     }
 
-    if (text.compareTo("/led_on")) {
-      //text.replace("/led_on"," ");
+    if (text.compareTo("/setLed")) {
       char tmp[20];
       text.toCharArray(tmp, 20);
-      sscanf(tmp,"/led_on %d %d %d",&ledVal[0], &ledVal[1], &ledVal[2]);
+      sscanf(tmp,"/setLed %d %d %d",&ledVal[0], &ledVal[1], &ledVal[2]);
       setLed(ledVal[0],ledVal[1],ledVal[2]);
-      bot.sendMessage(chat_id, "Enabled");
+      if(ledVal[0] == 0 && ledVal[1] == 0 && ledVal[2] == 0){
+        bot.sendMessage(chat_id, "Led was disabled");
+    } else {
+      bot.sendMessage(chat_id, "Your value was setted");
     }
+   }
 
     if (text.equals("/start")) {
-      String startPg = "Hello, I'm bot which can show some information about home. Now i only can show temperature in home, just type /temp. Or use /help if you need more information(haha, i have only one command(for now)).";
+      String startPg = "Hello, I'm bot which can show some information about home. I can show temperature at house and set color for rgb diod. Use /help if you need more information.";
       bot.sendMessage(chat_id, startPg);
     }
   }
