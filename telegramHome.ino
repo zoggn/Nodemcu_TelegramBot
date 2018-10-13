@@ -12,6 +12,11 @@ UniversalTelegramBot bot(BOTtoken, client);
 
 /* Misc settings */
 long timing = 0;
+#define led_r  14
+#define led_g  12
+#define led_b  13
+int ledVal[3];
+
 
 unsigned long M = 1000000;
 unsigned int k = 1000;
@@ -36,6 +41,9 @@ void setup() {
   Serial.println("Connected to WiFi Network");
   sensors.begin();
 
+  pinMode(led_r, OUTPUT);
+  pinMode(led_g, OUTPUT);
+  pinMode(led_b, OUTPUT);
 }
 
 void loop() {  
@@ -80,9 +88,24 @@ void handleNewMessages(int numNewMessages) {
       bot.sendMessage(chat_id, "Temperature at zoggn's home is near = " + tempStr);
     }
 
+    if (text.compareTo("/led_on")) {
+      //text.replace("/led_on"," ");
+      char tmp[20];
+      text.toCharArray(tmp, 20);
+      sscanf(tmp,"/led_on %d %d %d",&ledVal[0], &ledVal[1], &ledVal[2]);
+      setLed(ledVal[0],ledVal[1],ledVal[2]);
+      bot.sendMessage(chat_id, "Enabled");
+    }
+
     if (text.equals("/start")) {
       String startPg = "Hello, I'm bot which can show some information about home. Now i only can show temperature in home, just type /temp. Or use /help if you need more information(haha, i have only one command(for now)).";
       bot.sendMessage(chat_id, startPg);
     }
   }
+}
+
+void setLed(int valR, int valG, int valB){
+  analogWrite(led_r, valR);
+  analogWrite(led_g, valG);
+  analogWrite(led_b, valB);
 }
